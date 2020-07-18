@@ -90,3 +90,5 @@ Two challenges of this project is large data size and the data imbalance.
 ## Licensing, Authors, Acknowledgements <a name="licensing"></a>
 
 Must give credit to Arvato Financial Solutions, a Bertelsmann subsidiary and [Udacity data science nano degree course](https://www.udacity.com/course/data-scientist-nanodegree--nd025) for the data. Although data can't be used for other purpose than this project, you can still try your own data following the steps in the notebook. 
+
+For more details, please read my blog post ["Find 1 out of 100?"](https://medium.com/@weixind/find-1-out-of-100-a8eae37794fd).
