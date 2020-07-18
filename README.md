@@ -3,9 +3,10 @@
 1. [Installation](#installation)
 2. [Project Motivation](#motivation)
 3. [File Descriptions](#files)
-4. [Results](#results)
-5. [Discussion](#discussion)
-6. [Licensing, Authors, and Acknowledgements](#licensing)
+4. [Methodology](#methodology)
+5. [Results](#results)
+6. [Discussion](#discussion)
+7. [Licensing, Authors, and Acknowledgements](#licensing)
 
 ## Installation <a name="installation"></a>
 
@@ -39,7 +40,7 @@ There is no data file available in this repo according to the Terms & Conditions
 
 You are welcome to use your own data to run the notebook.
 
-## Results <a name="results"></a>
+## Methodology <a name="methodology"></a>
 
 There are four steps to run this projects:
 
@@ -72,7 +73,9 @@ The finding is the customers data are only popular in three clusters while the g
 - Apply the same PCA on test data
 - Use the classifier built in step 3 to predict on test data
 
-Different classifier such as LinearSVC and logistic regression are tested and finally XGBClassifier is chosen becasue it performs better on imbalanced data. Combining with downsampling, the final ROC score exceeds 0.9.
+## Results <a name="results"></a>
+
+Different classifier such as LinearSVC and logistic regression are tested and finally XGBClassifier is chosen becasue it performs better on imbalanced data. Combining with downsampling, the final ROC score exceeds 0.8.
 
 ## Discussion <a name="discussion"></a>
 
@@ -81,6 +84,8 @@ Two challenges of this project is large data size and the data imbalance.
 1. To deal with the large data which has about 400 features after clearning and digitalization, PCA is used to extract the principal components from the data. Using PCA, 90% of the data characterizations are perserved with only half of the data features. 
 
 2. There are many methods to deal with imbalanced data in classification problem including resampling techniques and algorithmic ensemble techniques. This project chose cluster based downsampling to prepare a more balanced data while perserving as much as possible the distribution of the original data. It also used XGBClassifier to better handle this problem in more efficient way.
+
+3. For improvement, over sampling other than downsampling based on clusters can be tried. Bagging-based & boosting-based techniques on machine learning are also choices to boost the classification accuracy.
 
 ## Licensing, Authors, Acknowledgements <a name="licensing"></a>
 
