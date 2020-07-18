@@ -14970,7 +14970,7 @@ Final PCA keeps 196 features.
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The plot below shows the sample counts in each cluster group for both general population and customers data. We can see that general populaton distributes quite evenly in eight clusters while the customer group is only populated in three clusters.</p>
+<p>The plot below shows the sample counts in each cluster group for both general population and customers data. We can see that general population distributes quite evenly in eight clusters while the customer group is only populated in three clusters.</p>
 
 </div>
 </div>
@@ -15016,6 +15016,14 @@ Final PCA keeps 196 features.
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From the unsupervised learning we know that the customers data has different distribution on its demographic features from the general population data. So we should be able to identified potential customers from the general population.</p>
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -15093,7 +15101,7 @@ data shape after cleaning: (42962, 437)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Let's check the event rate for class 0 ("RESPONSE"= 0, not customer) and class 1 ("RESPONSE"= 1, customer). Class 1 is only in 1% of the data.</p>
+<p>Let's check the event rate for class 0 ("RESPONSE"= 0, not customer) and class 1 ("RESPONSE"= 1, customer). Class 1 is only 1% of the whole samples.</p>
 
 </div>
 </div>
@@ -15356,8 +15364,8 @@ Final PCA keeps 184 features.
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now, here comes the triky part of classification problem. After PCA, the data has already been standardized. We can directly used the PCA transformed data to train the classifier.</p>
-<p>According to the event label distribution plot from "response" column in previous section, Response 1 (class 1) samples is only 1% of all samples. If we just use all the samples to train a standard classifier, it will very likely predict all sample as class 0 while still acheiving 99% of accuracy.</p>
-<p>How to classify this highly imbalanced data? There are may ways to handel it in aspects of both data resampling and machine learning algorithm. Here we use cluster-based downsampling to downsample the major class (class 0) in each of its clusters to make the data more balanced while preserving the data characteristics in class 0 as much as possible.</p>
+<p>According to the event label distribution plot from "response" column in previous section, Response 1 (class 1) samples is only 1% of all samples. If we just use all the samples to train a standard classifier, it will very likely predict all sample as class 0 while still achieving 99% of accuracy.</p>
+<p>How to classify this highly imbalanced data? There are may ways to handle it in aspects of both data resampling and machine learning algorithm. Here we use cluster-based downsampling to downsample the major class (class 0) in each of its clusters to make the data more balanced while preserving the data characteristics in class 0 as much as possible.</p>
 
 </div>
 </div>
@@ -15705,7 +15713,7 @@ Down sampled Class1/Class0 = 0.6266195524146054
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Although 33330 actual class 0 samples are classified correctly which occupy 78% of class 0, 279 actual class 1 samples which are responded potential customers are classified as class 0. That is half of the actual class 1 population. The performance is not satisfying on the current classifiers.</p>
+<p>Although 33330 actual class 0 samples are classified correctly which occupy 78% of class 0, 279 actual class 1 samples which are responded potential customers are classified as class 0. That is half of the actual class 1 population. The performance is not satisfying on the standard classifiers.</p>
 <p>We definitely don't want to lose any of the potential customers. So we choose XBGClassifier from XGBoost in the next step. XGBoost (Extreme Gradient Boosting) is an advanced and more efficient implementation of Gradient Boosting Algorithm which has better performance on imbalanced data.</p>
 
 </div>
@@ -15830,7 +15838,7 @@ Accuracy: 41.79% (4.97%)
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>From the confusion matrix, we can see that XGBClassifier correctly identifies 467 class 1 samples, only miss 65 samples. The true positive rate is 467/(467+65)=0.88. The false positive rate is 7351/(7351+35079)=0.17. We improve a lot on capturing as many of the actual customers as possible.</p>
+<p>From the confusion matrix, we can see that XGBClassifier correctly identifies 467 class 1 samples, only miss 65 samples. The true positive rate is 467/(467+65)=0.88. The false negtive rate is 7351/(7351+35079)=0.17. We improve a lot on capturing as many of the actual customers as possible.</p>
 
 </div>
 </div>
@@ -16205,6 +16213,24 @@ avg / total       0.99      0.84      0.91     42962
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Discussion</strong></p>
+<p>Although downsampling and XGB classifier were used in this project to better deal with imbalanced data, there are still other techniques to improve the results.</p>
+<ul>
+<li>Data resampling</li>
+</ul>
+<p>Before doing machine learning, there are other methods to resample the data other than downsampling used in this project. A popular method to try is over sampling based on clusters. After applying k-means clustering to the data, the minority class 1 samples can be duplicated in each of its clusters to achieve equivalent data size as the majority class 0. The advantage of over sampling is not losing any information on the original data. And of course you’d like to try it on a more powerful computer.</p>
+<ul>
+<li>Bagging-based &amp; boosting-based techniques on machine learning</li>
+</ul>
+<p>Bagging is an abbreviation of Bootstrap Aggregating. It generates N different bootstrap training samples as the replacement of the original data. Each bootstrapped sample is used to train one classifier such as logistic regression, decision tree and etc. The results from each individual classifier are combined to come up with an improved one.</p>
+<p>Other boosting-based classifier such as Ada Boost classifier can also be tried besides XGB classifier used in this project. Even for XGB classifier, more parameters can be optimized when computational resources are available.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="-Part-3:-Kaggle-Competition-"><a class="anchor" id="part3"> Part 3: Kaggle Competition </a><a class="anchor-link" href="#-Part-3:-Kaggle-Competition-">&#182;</a></h3><p>Now that you've created a model to predict which individuals are most likely to respond to a mailout campaign, it's time to test that model in competition through Kaggle. If you click on the link <a href="http://www.kaggle.com/t/21e6d45d4c574c7fa2d868f0e8c83140">here</a>, you'll be taken to the competition page where, if you have a Kaggle account, you can enter. If you're one of the top performers, you may have the chance to be contacted by a hiring manager from Arvato or Bertelsmann for an interview!</p>
 <p>Your entry to the competition should be a CSV file with two columns. The first column should be a copy of "LNR", which acts as an ID number for each individual in the "TEST" partition. The second column, "RESPONSE", should be some measure of how likely each individual became a customer – this might not be a straightforward probability. As you should have found in Part 2, there is a large output class imbalance, where most individuals did not respond to the mailout. Thus, predicting individual classes and using accuracy does not seem to be an appropriate performance evaluation method. Instead, the competition will be using AUC to evaluate performance. The exact values of the "RESPONSE" column do not matter as much: only that the higher values try to capture as many of the actual customers as possible, early in the ROC curve sweep.</p>
 
@@ -16394,7 +16420,7 @@ data shape after cleaning: (42833, 436)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Save notebook to html format, return 0 if succeed</span>
@@ -16412,7 +16438,7 @@ data shape after cleaning: (42833, 436)
 
 <div class="output_area">
 
-    <div class="prompt output_prompt">Out[1]:</div>
+    <div class="prompt output_prompt">Out[2]:</div>
 
 
 
