@@ -67,7 +67,7 @@ The finding is the customers data are only popular in three clusters while the g
 - Run PCA on general population data to reduce features to half
 - Do KMeans clustering for class 0 data and downsample in each cluster because the training data is highly imbalanced that size of class 1 is only 1% of class 0. 
 - Fit the classifier with the downsampled training data
-- Improve the classifier using grid search
+- Improve the classifier using grid search and using original features without PCA and downsampling
 
 ### 4. Predict on test data
 - Apply the same PCA on test data
@@ -75,7 +75,7 @@ The finding is the customers data are only popular in three clusters while the g
 
 ## Results <a name="results"></a>
 
-Different classifier such as LinearSVC and logistic regression are tested and finally XGBClassifier is chosen becasue it performs better on imbalanced data. Combining with downsampling, the final ROC score exceeds 0.8.
+Different classifier such as LinearSVC and logistic regression are tested and finally XGBClassifier is chosen becasue it performs better on imbalanced data. Combining with downsampling, the final AUC score exceeds 0.9 on training data. Prediction on test results exceedes 0.7 on AUC score according to Kaggle competition feedbacks.
 
 ## Discussion <a name="discussion"></a>
 
